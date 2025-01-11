@@ -2,10 +2,139 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Moja Strona</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizytówka Online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
+        }
+        section {
+            margin-bottom: 2rem;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        .timeline {
+            list-style: none;
+            padding: 0;
+        }
+        .timeline li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .timeline li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 10px;
+            height: 10px;
+            background-color: #007bff;
+            border-radius: 50%;
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .skills span {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 1rem 0;
+            background-color: #333;
+            color: #fff;
+        }
+        @media (max-width: 768px) {
+            .skills {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Witaj na mojej stronie!</h1>
-  <p>To moja pierwsza strona na GitHub Pages.</p>
+<header>
+    <h1>Wizytówka Online</h1>
+</header>
+<div class="container">
+    <section>
+        <h2>O mnie</h2>
+        <p><strong>Imię i nazwisko:</strong> Aleksander Jedynak</p>
+        <p><strong>Miasto:</strong> Warszawa</p>
+        <p><strong>Stanowisko:</strong> Senior Frontend Developer</p>
+        <p><strong>Firma:</strong>  Softax Ryszard Srokosz Spółka Jawna <a href="https://www.softax.pl/"> Link -></a></p>
+        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/aleksanderjedynak/">Link -></a></p>
+    </section>
+
+    <section>
+        <h2>Moje Projekty</h2>
+        <p>Na tej stronie jest lista projektow jakie realizuje po godzinach pracy. Zapraszam do obserwacji i komentowania.</p>
+        <ul class="timeline">
+            <li>
+                <strong>Github</strong> linki do prywatnego konta na Githubie z projektami <a href="my-projects.html"> Link -></a>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Znajomość technologii</h2>
+        <div class="skills">
+            <span>JavaScript</span>
+            <span>Python</span>
+            <span>React</span>
+            <span>TypeScript</span>
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>Git</span>
+            <span>Cypress</span>
+            <span>Linux</span>
+        </div>
+    </section>
+
+    <section>
+        <h2>Zainteresowania</h2>
+        <p>Salsa on1, strzelanie dynamiczne, budownictow - majsterkowanie, kickboxing, czytanie</p>
+    </section>
+
+    <section>
+        <h2>Kontakt</h2>
+        <p><strong>Email:</strong> job@aleksander.one</p>
+        <p><strong>Telefon:</strong> +48 503 765 186</p>
+    </section>
+</div>
+<footer>
+    <p>&copy; 2025 Aleksander Jedynak. Wszelkie prawa zastrzeżone.</p>
+</footer>
 </body>
 </html>
