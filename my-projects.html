@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moje Projekty</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .project-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .project-card h3 {
+      margin: 0 0 0.5rem;
+    }
+    .project-card a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .loader {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #007bff;
+      margin: 2rem 0;
+    }
+    .pagination {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .pagination button {
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Moje Projekty</h1>
+  <a href="index.html" style="text-decoration: none;">
+    <button style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; border: 1px solid #ddd; background-color: #007bff; color: #fff; border-radius: 5px;">
+      Powrót na Stronę Główną
+    </button>
+  </a>
+</header>
+<div class="container">
+  <div id="loader" class="loader" style="display: none;">Ładowanie...</div>
+
+  <div id="projects-container">
+    <p>Ładowanie projektów...</p>
+  </div>
+  <div id="pagination-container" class="pagination"></div>
+</div>
+
+<script>
+  const username = "aleksanderjedynak"; // Zmień na zmienną środowiskową, jeśli to możliwe
+
+  const apiUrl = `https://api.github.com/users/${username}/repos`;
+
+  const projectsContainer = document.getElementById("projects-container");
+  const loader = document.getElementById("loader");
+  const paginationContainer = document.getElementById("pagination-container");
+
+  let currentPage = 1;
+  const reposPerPage = 10;
+
+  async function fetchRepositories() {
+    try {
+      loader.style.display = "block";
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`Nie udało się pobrać repozytoriów: ${response.statusText}`);
+      }
+      const repos = await response.json();
+      const filteredRepos = [];
+
+      for (const repo of repos) {
+        const isDeployed = await checkVercelDeployment(repo.name);
+        if (isDeployed) {
+          filteredRepos.push(repo);
+        }
+      }
+
+      displayRepositories(filteredRepos);
+    } catch (error) {
+      console.error(error);
+      projectsContainer.innerHTML = `<p>Błąd podczas pobierania repozytoriów. Spróbuj ponownie później.</p>`;
+    } finally {
+      loader.style.display = "none";
+    }
+  }
+
+  async function checkVercelDeployment(projectName) {
+    const deployUrl = `https://${projectName}.aleksanderone.site`;
+    try {
+      const response = await fetch(deployUrl, { method: "HEAD" });
+      return response.ok;
+    } catch (error) {
+      console.error(`Sprawdzanie wdrożenia nie powiodło się dla ${projectName}:`, error);
+      return false;
+    }
+  }
+
+  async function fetchPackageJson(repoName) {
+    const packageJsonUrl = `https://raw.githubusercontent.com/${username}/${repoName}/main/package.json`;
+    try {
+      const response = await fetch(packageJsonUrl);
+      if (!response.ok) {
+        throw new Error(`Nie udało się pobrać package.json dla ${repoName}: ${response.statusText}`);
+      }
+      const packageJson = await response.json();
+      return packageJson.version || "Nieznana wersja";
+    } catch (error) {
+      console.error(error);
+      return "Nieznana wersja";
+    }
+  }
+
+  async function displayRepositories(repos) {
+    const startIndex = (currentPage - 1) * reposPerPage;
+    const endIndex = startIndex + reposPerPage;
+    const paginatedRepos = repos.slice(startIndex, endIndex);
+
+    projectsContainer.innerHTML = "";
+
+    for (const repo of paginatedRepos) {
+      const projectName = repo.name;
+      const repoUrl = repo.html_url;
+      const deployUrl = `https://${projectName}.aleksanderone.site`;
+      const projectVersion = await fetchPackageJson(projectName);
+      const projectDescription = repo.description || "Brak opisu.";
+
+      const projectCard = `
+          <div class="project-card">
+            <h3>${projectName}</h3>
+            <p>${projectDescription}</p>
+            <p>Wersja: ${projectVersion}</p>
+            <a href="${repoUrl}" target="_blank">Repozytorium GitHub</a> |
+            <a href="${deployUrl}" target="_blank">Demo na żywo</a>
+          </div>
+        `;
+
+      projectsContainer.innerHTML += projectCard;
+    }
+
+    setupPagination(repos);
+  }
+
+  function setupPagination(filteredRepos) {
+    paginationContainer.innerHTML = "";
+    const totalPages = Math.ceil(filteredRepos.length / reposPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const pageButton = document.createElement("button");
+      pageButton.textContent = i;
+      pageButton.className = i === currentPage ? "active" : "";
+      pageButton.addEventListener("click", () => {
+        currentPage = i;
+        displayRepositories(filteredRepos);
+      });
+      paginationContainer.appendChild(pageButton);
+    }
+  }
+
+  fetchRepositories();
+</script>
+</body>
+</html>
