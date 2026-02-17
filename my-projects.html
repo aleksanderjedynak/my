@@ -8,13 +8,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
     <style type="text/tailwindcss">
         @theme {
             --font-sans: 'Inter', sans-serif;
         }
     </style>
+    <script>
+        (function(){var t=localStorage.getItem('theme-preference')||'system';var l=t==='light'||(t==='system'&&matchMedia('(prefers-color-scheme:light)').matches);if(l)document.documentElement.classList.add('light-mode')})();
+        (function(){var lang=localStorage.getItem('lang-preference');if(lang&&lang!=='pl'){document.documentElement.lang=lang;document.documentElement.style.visibility='hidden'}})();
+    </script>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased" data-page="projects">
 
 <!-- Nawigacja -->
 <nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
@@ -22,12 +28,19 @@
         <div class="flex items-center justify-between h-16">
             <a href="index.html" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors duration-300">
                 <i class="fa-solid fa-arrow-left"></i>
-                <span>Powrot</span>
+                <span data-i18n="nav.back">Powrot</span>
             </a>
-            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">
+            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent" data-i18n="nav.my_projects">
                 Moje Projekty
             </h1>
-            <div class="w-20"></div>
+            <div class="flex items-center gap-2">
+                <button id="lang-toggle" class="text-slate-400 hover:text-white transition-colors duration-300 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-800" title="English">
+                    <span class="text-sm font-bold">EN</span>
+                </button>
+                <button id="theme-toggle" class="text-slate-400 hover:text-white transition-colors duration-300 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-800" data-i18n="a11y.change_theme" data-i18n-attr="title,aria-label" title="Zmien motyw" aria-label="Zmien motyw">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
         </div>
     </div>
 </nav>
@@ -39,14 +52,14 @@
         <!-- Loader -->
         <div id="loader" class="hidden text-center py-20">
             <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-slate-400 mt-4">Ladowanie projektow...</p>
+            <p class="text-slate-400 mt-4" data-i18n="projects.loading">Ladowanie projektow...</p>
         </div>
 
         <!-- Projekty grid -->
         <div id="projects-container" class="grid md:grid-cols-2 gap-6">
             <div class="text-center py-20 md:col-span-2">
                 <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-slate-400 mt-4">Ladowanie projektow...</p>
+                <p class="text-slate-400 mt-4" data-i18n="projects.loading">Ladowanie projektow...</p>
             </div>
         </div>
 
@@ -58,11 +71,19 @@
 <!-- Footer -->
 <footer class="py-8 border-t border-slate-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p class="text-slate-500 text-sm">&copy; 2025 Aleksander Jedynak. Wszelkie prawa zastrzezone.</p>
+        <p class="text-slate-500 text-sm">&copy; 2011 - <span id="current-year"></span> Aleksander Jedynak. <span data-i18n="footer.rights">Wszelkie prawa zastrzezone.</span></p>
     </div>
 </footer>
 
+<!-- Scroll to top -->
+<button id="scroll-top" data-i18n="a11y.scroll_top" data-i18n-attr="aria-label" aria-label="Przewin do gory">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<script src="js/i18n.js"></script>
+<script src="js/theme.js"></script>
 <script src="js/projects.js"></script>
+<script>I18n.init();</script>
 
 </body>
 </html>
