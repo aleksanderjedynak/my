@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Aleksander Jedynak</title>
+    <meta name="description" content="Blog Aleksandra Jedynaka - artykuly o programowaniu, frontend, technologiach.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/blog.css">
+    <style type="text/tailwindcss">
+        @theme {
+            --font-sans: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+
+<!-- Nawigacja -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <a href="index.html" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors duration-300">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Powrot</span>
+            </a>
+            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">
+                Blog
+            </h1>
+            <div class="w-20"></div>
+        </div>
+    </div>
+</nav>
+
+<!-- Zawartosc -->
+<main class="pt-24 pb-12 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="blog-content">
+            <!-- Loader -->
+            <div class="text-center py-20">
+                <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-slate-400 mt-4">Ladowanie...</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="py-8 border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-slate-500 text-sm">&copy; 2025 Aleksander Jedynak. Wszelkie prawa zastrzezone.</p>
+    </div>
+</footer>
+
+<script src="js/notion-renderer.js"></script>
+<script src="js/blog.js"></script>
+
+</body>
+</html>
