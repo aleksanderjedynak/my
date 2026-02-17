@@ -8,6 +8,9 @@ const paginationContainer = document.getElementById("pagination-container");
 let currentPage = 1;
 const reposPerPage = 10;
 
+// Cache repozytoriow - nie fetchujemy ponownie przy zmianie jezyka
+var cachedRepos = null;
+
 async function fetchRepositories() {
     try {
         loader.classList.remove("hidden");
@@ -15,7 +18,7 @@ async function fetchRepositories() {
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
-            throw new Error(`Nie udalo sie pobrac repozytoriow: ${response.statusText}`);
+            throw new Error(`Failed to fetch repos: ${response.statusText}`);
         }
         const repos = await response.json();
         const filteredRepos = [];
@@ -27,13 +30,14 @@ async function fetchRepositories() {
             }
         }
 
+        cachedRepos = filteredRepos;
         displayRepositories(filteredRepos);
     } catch (error) {
         console.error(error);
         projectsContainer.innerHTML = `
             <div class="md:col-span-2 text-center py-20">
                 <i class="fa-solid fa-triangle-exclamation text-4xl text-red-400 mb-4"></i>
-                <p class="text-slate-400">Blad podczas pobierania repozytoriow. Sprobuj ponownie pozniej.</p>
+                <p class="text-slate-400">${I18n.t('projects.error')}</p>
             </div>`;
     } finally {
         loader.classList.add("hidden");
@@ -46,7 +50,7 @@ async function checkVercelDeployment(projectName) {
         const response = await fetch(deployUrl, { method: "HEAD" });
         return response.ok;
     } catch (error) {
-        console.error(`Sprawdzanie wdrozenia nie powiodlo sie dla ${projectName}:`, error);
+        console.error(`Deployment check failed for ${projectName}:`, error);
         return false;
     }
 }
@@ -56,13 +60,13 @@ async function fetchPackageJson(repoName) {
     try {
         const response = await fetch(packageJsonUrl);
         if (!response.ok) {
-            throw new Error(`Nie udalo sie pobrac package.json dla ${repoName}: ${response.statusText}`);
+            throw new Error(`Failed to fetch package.json for ${repoName}: ${response.statusText}`);
         }
         const packageJson = await response.json();
-        return packageJson.version || "Nieznana wersja";
+        return packageJson.version || I18n.t('projects.unknown_version');
     } catch (error) {
         console.error(error);
-        return "Nieznana wersja";
+        return I18n.t('projects.unknown_version');
     }
 }
 
@@ -77,7 +81,7 @@ async function displayRepositories(repos) {
         projectsContainer.innerHTML = `
             <div class="md:col-span-2 text-center py-20">
                 <i class="fa-solid fa-folder-open text-4xl text-slate-600 mb-4"></i>
-                <p class="text-slate-400">Brak projektow do wyswietlenia.</p>
+                <p class="text-slate-400">${I18n.t('projects.empty')}</p>
             </div>`;
         return;
     }
@@ -87,7 +91,7 @@ async function displayRepositories(repos) {
         const repoUrl = repo.html_url;
         const deployUrl = `https://${projectName}.aleksanderone.site`;
         const projectVersion = await fetchPackageJson(projectName);
-        const projectDescription = repo.description || "Brak opisu.";
+        const projectDescription = repo.description || I18n.t('projects.no_description');
 
         const projectCard = `
             <div class="group bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-blue-500/50 hover:-translate-y-1 transition-all duration-300">
@@ -97,18 +101,18 @@ async function displayRepositories(repos) {
                     </div>
                     <span class="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded-full">v${projectVersion}</span>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors duration-300">
+                <h3 class="text-lg font-semibold text-slate-50 mb-2 group-hover:text-blue-400 transition-colors duration-300">
                     ${projectName}
                 </h3>
                 <p class="text-slate-400 text-sm mb-6 line-clamp-2">${projectDescription}</p>
                 <div class="flex items-center gap-4 pt-4 border-t border-slate-700">
                     <a href="${repoUrl}" target="_blank"
                        class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors duration-300">
-                        <i class="fa-brands fa-github"></i> Repozytorium
+                        <i class="fa-brands fa-github"></i> ${I18n.t('projects.link_repo')}
                     </a>
                     <a href="${deployUrl}" target="_blank"
                        class="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors duration-300">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Demo
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> ${I18n.t('projects.link_demo')}
                     </a>
                 </div>
             </div>`;
@@ -142,4 +146,13 @@ function setupPagination(filteredRepos) {
     }
 }
 
-fetchRepositories();
+// Pierwsze ladowanie po inicjalizacji i18n, re-render przy zmianie jezyka
+var initialLoad = true;
+I18n.onReady(function () {
+    if (initialLoad) {
+        initialLoad = false;
+        fetchRepositories();
+    } else if (cachedRepos) {
+        displayRepositories(cachedRepos);
+    }
+});
