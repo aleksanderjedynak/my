@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "index_title": "Aleksander Jedynak - Senior Frontend Developer",
+    "index_description": "Aleksander Jedynak - Senior Frontend Developer based in Warsaw. JavaScript, React, TypeScript, Python.",
+    "projects_title": "My Projects - Aleksander Jedynak",
+    "projects_description": "Open source projects by Aleksander Jedynak - web applications with live deployments."
+  },
+  "nav": {
+    "about": "About",
+    "skills": "Technologies",
+    "projects": "Projects",
+    "interests": "Interests",
+    "contact": "Contact",
+    "blog": "Blog",
+    "back": "Back",
+    "my_projects": "My Projects"
+  },
+  "hero": {
+    "role": "Senior Frontend Developer",
+    "location": "Warsaw",
+    "btn_contact": "Contact",
+    "btn_projects": "Projects"
+  },
+  "about": {
+    "heading": "About me",
+    "description": "Senior Frontend Developer with years of experience building modern web applications. Specializing in the JavaScript/TypeScript ecosystem with a focus on React.",
+    "location": "Warsaw",
+    "position": "Senior Frontend Developer",
+    "highlight_technologies": "Technologies",
+    "highlight_specialization": "Specialization",
+    "highlight_react": "React",
+    "highlight_fullstack": "Full Stack"
+  },
+  "skills": {
+    "heading": "Technologies"
+  },
+  "projects": {
+    "heading": "Projects",
+    "intro": "Side projects built outside of work hours. Each one with a live deployment and source code on GitHub.",
+    "btn_view": "View projects",
+    "loading": "Loading projects...",
+    "empty": "No projects to display.",
+    "no_description": "No description.",
+    "unknown_version": "Unknown version",
+    "error": "Failed to fetch repositories. Please try again later.",
+    "link_repo": "Repository",
+    "link_demo": "Demo"
+  },
+  "interests": {
+    "heading": "Interests",
+    "shooting": "Shooting",
+    "construction": "Construction",
+    "reading": "Reading"
+  },
+  "contact": {
+    "heading": "Contact",
+    "phone": "Phone"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "label_prefix": "Theme"
+  },
+  "a11y": {
+    "change_theme": "Change theme",
+    "scroll_top": "Scroll to top"
+  }
+}

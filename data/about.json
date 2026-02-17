@@ -1,0 +1,14 @@
+{
+  "name": "Aleksander Jedynak",
+  "company": {
+    "name": "Softax",
+    "url": "https://www.softax.pl/"
+  },
+  "linkedin": "https://www.linkedin.com/in/aleksanderjedynak/",
+  "highlights": [
+    { "value": "9+", "labelKey": "about.highlight_technologies", "color": "blue" },
+    { "value": "JS", "labelKey": "about.highlight_specialization", "color": "violet" },
+    { "icon": "fa-brands fa-react", "labelKey": "about.highlight_react", "color": "blue" },
+    { "icon": "fa-solid fa-code", "labelKey": "about.highlight_fullstack", "color": "violet" }
+  ]
+}

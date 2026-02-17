@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "index_title": "Aleksander Jedynak - Senior Frontend Developer",
+    "index_description": "Aleksander Jedynak - Senior Frontend Developer z Warszawy. JavaScript, React, TypeScript, Python.",
+    "projects_title": "Moje Projekty - Aleksander Jedynak",
+    "projects_description": "Projekty open source Aleksandra Jedynaka - aplikacje webowe z wdrożeniem na żywo."
+  },
+  "nav": {
+    "about": "O mnie",
+    "skills": "Technologie",
+    "projects": "Projekty",
+    "interests": "Zainteresowania",
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "back": "Powrót",
+    "my_projects": "Moje Projekty"
+  },
+  "hero": {
+    "role": "Senior Frontend Developer",
+    "location": "Warszawa",
+    "btn_contact": "Kontakt",
+    "btn_projects": "Projekty"
+  },
+  "about": {
+    "heading": "O mnie",
+    "description": "Senior Frontend Developer z wieloletnim doświadczeniem w tworzeniu nowoczesnych aplikacji webowych. Specjalizuję się w ekosystemie JavaScript/TypeScript z naciskiem na React.",
+    "location": "Warszawa",
+    "position": "Senior Frontend Developer",
+    "highlight_technologies": "Technologii",
+    "highlight_specialization": "Specjalizacja",
+    "highlight_react": "React",
+    "highlight_fullstack": "Full Stack"
+  },
+  "skills": {
+    "heading": "Technologie"
+  },
+  "projects": {
+    "heading": "Projekty",
+    "intro": "Lista projektów realizowanych po godzinach pracy. Każdy z wdrożeniem na żywo i kodem źródłowym na GitHubie.",
+    "btn_view": "Zobacz projekty",
+    "loading": "Ładowanie projektów...",
+    "empty": "Brak projektów do wyświetlenia.",
+    "no_description": "Brak opisu.",
+    "unknown_version": "Nieznana wersja",
+    "error": "Błąd podczas pobierania repozytoriów. Spróbuj ponownie później.",
+    "link_repo": "Repozytorium",
+    "link_demo": "Demo"
+  },
+  "interests": {
+    "heading": "Zainteresowania",
+    "shooting": "Strzelanie",
+    "construction": "Budownictwo",
+    "reading": "Czytanie"
+  },
+  "contact": {
+    "heading": "Kontakt",
+    "phone": "Telefon"
+  },
+  "footer": {
+    "rights": "Wszelkie prawa zastrzeżone."
+  },
+  "theme": {
+    "dark": "Ciemny",
+    "light": "Jasny",
+    "system": "Systemowy",
+    "label_prefix": "Motyw"
+  },
+  "a11y": {
+    "change_theme": "Zmień motyw",
+    "scroll_top": "Przewiń do góry"
+  }
+}
