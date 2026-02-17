@@ -8,14 +8,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/styles.css">
     <style type="text/tailwindcss">
         @theme {
             --font-sans: 'Inter', sans-serif;
         }
     </style>
+    <script>
+        (function(){var t=localStorage.getItem('theme-preference')||'system';var l=t==='light'||(t==='system'&&matchMedia('(prefers-color-scheme:light)').matches);if(l)document.documentElement.classList.add('light-mode')})();
+        (function(){var lang=localStorage.getItem('lang-preference');if(lang&&lang!=='pl'){document.documentElement.lang=lang;document.documentElement.style.visibility='hidden'}})();
+    </script>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased" data-page="index">
 
 <!-- Nawigacja -->
 <nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
@@ -25,24 +30,34 @@
                 AJ
             </a>
             <div class="hidden md:flex items-center gap-8">
-                <a href="#about" class="text-slate-400 hover:text-white transition-colors duration-300">O mnie</a>
-                <a href="#skills" class="text-slate-400 hover:text-white transition-colors duration-300">Technologie</a>
-                <a href="#projects" class="text-slate-400 hover:text-white transition-colors duration-300">Projekty</a>
-                <a href="#interests" class="text-slate-400 hover:text-white transition-colors duration-300">Zainteresowania</a>
-                <a href="#contact" class="text-slate-400 hover:text-white transition-colors duration-300">Kontakt</a>
+                <a href="#about" class="text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.about">O mnie</a>
+                <a href="#skills" class="text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.skills">Technologie</a>
+                <a href="#projects" class="text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.projects">Projekty</a>
+                <a href="blog.html" class="text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.blog">Blog</a>
+                <a href="#interests" class="text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.interests">Zainteresowania</a>
+                <a href="#contact" class="text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.contact">Kontakt</a>
             </div>
-            <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white transition-colors duration-300">
-                <i class="fa-solid fa-bars text-xl"></i>
-            </button>
+            <div class="flex items-center gap-3">
+                <button id="lang-toggle" class="text-slate-400 hover:text-white transition-colors duration-300 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-800" title="English">
+                    <span class="text-sm font-bold">EN</span>
+                </button>
+                <button id="theme-toggle" class="text-slate-400 hover:text-white transition-colors duration-300 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-800" data-i18n="a11y.change_theme" data-i18n-attr="title,aria-label" title="Zmien motyw" aria-label="Zmien motyw">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white transition-colors duration-300">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
         </div>
     </div>
     <!-- Menu mobilne -->
     <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-t border-slate-800 px-4 py-4 space-y-3">
-        <a href="#about" class="block text-slate-400 hover:text-white transition-colors duration-300">O mnie</a>
-        <a href="#skills" class="block text-slate-400 hover:text-white transition-colors duration-300">Technologie</a>
-        <a href="#projects" class="block text-slate-400 hover:text-white transition-colors duration-300">Projekty</a>
-        <a href="#interests" class="block text-slate-400 hover:text-white transition-colors duration-300">Zainteresowania</a>
-        <a href="#contact" class="block text-slate-400 hover:text-white transition-colors duration-300">Kontakt</a>
+        <a href="#about" class="block text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.about">O mnie</a>
+        <a href="#skills" class="block text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.skills">Technologie</a>
+        <a href="#projects" class="block text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.projects">Projekty</a>
+        <a href="blog.html" class="block text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.blog">Blog</a>
+        <a href="#interests" class="block text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.interests">Zainteresowania</a>
+        <a href="#contact" class="block text-slate-400 hover:text-white transition-colors duration-300" data-i18n="nav.contact">Kontakt</a>
     </div>
 </nav>
 
@@ -52,26 +67,31 @@
     <div class="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl"></div>
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 flex items-center justify-center text-4xl font-bold text-white shadow-lg shadow-blue-500/25">
-            AJ
+        <div class="w-32 h-32 mx-auto mb-8 relative">
+            <img id="github-avatar" src="https://github.com/aleksanderjedynak.png" alt="Aleksander Jedynak"
+                 class="w-32 h-32 rounded-full object-cover shadow-lg shadow-blue-500/25 ring-2 ring-blue-500/50"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="w-32 h-32 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 items-center justify-center text-4xl font-bold text-white shadow-lg shadow-blue-500/25 hidden">
+                AJ
+            </div>
         </div>
 
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
             Aleksander <span class="bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">Jedynak</span>
         </h1>
 
-        <p class="text-xl sm:text-2xl text-slate-400 mb-2">Senior Frontend Developer</p>
+        <p class="text-xl sm:text-2xl text-slate-400 mb-2" data-i18n="hero.role">Senior Frontend Developer</p>
         <p class="text-lg text-slate-500 mb-8">
             <i class="fa-solid fa-building mr-2"></i>Softax
             <span class="mx-3 text-slate-700">|</span>
-            <i class="fa-solid fa-location-dot mr-2"></i>Warszawa
+            <i class="fa-solid fa-location-dot mr-2"></i><span data-i18n="hero.location">Warszawa</span>
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#contact" class="px-8 py-3 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:-translate-y-0.5">
+            <a href="#contact" class="px-8 py-3 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:-translate-y-0.5" data-i18n="hero.btn_contact">
                 Kontakt
             </a>
-            <a href="#projects" class="px-8 py-3 border border-slate-700 text-slate-300 font-semibold rounded-lg hover:border-blue-500 hover:text-white transition-all duration-300 hover:-translate-y-0.5">
+            <a href="#projects" class="px-8 py-3 border border-slate-700 text-slate-300 font-semibold rounded-lg hover:border-blue-500 hover:text-white transition-all duration-300 hover:-translate-y-0.5" data-i18n="hero.btn_projects">
                 Projekty
             </a>
         </div>
@@ -83,7 +103,7 @@
             <a href="https://github.com/aleksanderjedynak" target="_blank" class="text-slate-500 hover:text-white transition-colors duration-300 text-2xl" aria-label="GitHub">
                 <i class="fa-brands fa-github"></i>
             </a>
-            <a href="mailto:job@aleksander.one" class="text-slate-500 hover:text-blue-400 transition-colors duration-300 text-2xl" aria-label="Email">
+            <a href="mailto:aleksander.jedynak@gmail.com" class="text-slate-500 hover:text-blue-400 transition-colors duration-300 text-2xl" aria-label="Email">
                 <i class="fa-solid fa-envelope"></i>
             </a>
         </div>
@@ -98,67 +118,42 @@
 <section id="about" class="py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-4">O mnie</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-i18n="about.heading">O mnie</h2>
             <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-violet-500 mx-auto rounded-full"></div>
         </div>
 
         <div class="grid md:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
-                <p class="text-slate-300 text-lg leading-relaxed">
-                    Senior Frontend Developer z wieloletnim doswiadczeniem w tworzeniu nowoczesnych aplikacji webowych.
-                    Specjalizuje sie w ekosystemie JavaScript/TypeScript z naciskiem na React.
-                </p>
+                <p id="about-description" class="text-slate-300 text-lg leading-relaxed"></p>
                 <div class="space-y-4">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
                             <i class="fa-solid fa-user text-blue-500"></i>
                         </div>
-                        <span class="text-slate-300">Aleksander Jedynak</span>
+                        <span id="about-name" class="text-slate-300"></span>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
                             <i class="fa-solid fa-location-dot text-blue-500"></i>
                         </div>
-                        <span class="text-slate-300">Warszawa</span>
+                        <span id="about-location" class="text-slate-300"></span>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
                             <i class="fa-solid fa-briefcase text-blue-500"></i>
                         </div>
-                        <span class="text-slate-300">Senior Frontend Developer @
-                            <a href="https://www.softax.pl/" target="_blank" class="text-blue-400 hover:underline">Softax</a>
-                        </span>
+                        <span id="about-position" class="text-slate-300"></span>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
                             <i class="fa-brands fa-linkedin text-blue-500"></i>
                         </div>
-                        <a href="https://www.linkedin.com/in/aleksanderjedynak/" target="_blank" class="text-blue-400 hover:underline">LinkedIn</a>
+                        <a id="about-linkedin" href="#" target="_blank" class="text-blue-400 hover:underline">LinkedIn</a>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 text-center hover:border-blue-500/50 transition-colors duration-300">
-                    <div class="text-3xl font-bold text-blue-500 mb-2">9+</div>
-                    <div class="text-slate-400 text-sm">Technologii</div>
-                </div>
-                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 text-center hover:border-blue-500/50 transition-colors duration-300">
-                    <div class="text-3xl font-bold text-violet-500 mb-2">JS</div>
-                    <div class="text-slate-400 text-sm">Specjalizacja</div>
-                </div>
-                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 text-center hover:border-blue-500/50 transition-colors duration-300">
-                    <div class="text-3xl font-bold text-blue-500 mb-2">
-                        <i class="fa-brands fa-react"></i>
-                    </div>
-                    <div class="text-slate-400 text-sm">React</div>
-                </div>
-                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 text-center hover:border-blue-500/50 transition-colors duration-300">
-                    <div class="text-3xl font-bold text-violet-500 mb-2">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-                    <div class="text-slate-400 text-sm">Full Stack</div>
-                </div>
+            <div id="about-highlights" class="grid grid-cols-2 gap-4">
             </div>
         </div>
     </div>
@@ -168,7 +163,7 @@
 <section id="skills" class="py-20 bg-slate-900/50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Technologie</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-i18n="skills.heading">Technologie</h2>
             <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-violet-500 mx-auto rounded-full"></div>
         </div>
 
@@ -217,18 +212,18 @@
 <section id="projects" class="py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Projekty</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-i18n="projects.heading">Projekty</h2>
             <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-violet-500 mx-auto rounded-full"></div>
         </div>
 
         <div class="max-w-2xl mx-auto text-center">
             <div class="bg-slate-800 rounded-2xl p-8 sm:p-12 border border-slate-700 hover:border-blue-500/50 transition-colors duration-300">
                 <i class="fa-brands fa-github text-6xl text-slate-400 mb-6"></i>
-                <p class="text-slate-300 text-lg mb-8">
+                <p class="text-slate-300 text-lg mb-8" data-i18n="projects.intro">
                     Lista projektow realizowanych po godzinach pracy. Kazdy z wdrozeniem na zywo i kodem zrodlowym na GitHubie.
                 </p>
                 <a href="my-projects.html" class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:-translate-y-0.5">
-                    Zobacz projekty
+                    <span data-i18n="projects.btn_view">Zobacz projekty</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -240,7 +235,7 @@
 <section id="interests" class="py-20 bg-slate-900/50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Zainteresowania</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-i18n="interests.heading">Zainteresowania</h2>
             <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-violet-500 mx-auto rounded-full"></div>
         </div>
 
@@ -251,11 +246,11 @@
             </div>
             <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 text-center hover:border-violet-500/50 hover:-translate-y-1 transition-all duration-300">
                 <i class="fa-solid fa-crosshairs text-2xl text-red-400 mb-3"></i>
-                <p class="text-slate-300 text-sm font-medium">Strzelanie</p>
+                <p class="text-slate-300 text-sm font-medium" data-i18n="interests.shooting">Strzelanie</p>
             </div>
             <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 text-center hover:border-violet-500/50 hover:-translate-y-1 transition-all duration-300">
                 <i class="fa-solid fa-hammer text-2xl text-amber-400 mb-3"></i>
-                <p class="text-slate-300 text-sm font-medium">Budownictwo</p>
+                <p class="text-slate-300 text-sm font-medium" data-i18n="interests.construction">Budownictwo</p>
             </div>
             <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 text-center hover:border-violet-500/50 hover:-translate-y-1 transition-all duration-300">
                 <i class="fa-solid fa-hand-fist text-2xl text-orange-400 mb-3"></i>
@@ -263,7 +258,7 @@
             </div>
             <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 text-center hover:border-violet-500/50 hover:-translate-y-1 transition-all duration-300">
                 <i class="fa-solid fa-book text-2xl text-emerald-400 mb-3"></i>
-                <p class="text-slate-300 text-sm font-medium">Czytanie</p>
+                <p class="text-slate-300 text-sm font-medium" data-i18n="interests.reading">Czytanie</p>
             </div>
             <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 text-center hover:border-violet-500/50 hover:-translate-y-1 transition-all duration-300">
                 <i class="fa-solid fa-puzzle-piece text-2xl text-yellow-400 mb-3"></i>
@@ -277,24 +272,24 @@
 <section id="contact" class="py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Kontakt</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4" data-i18n="contact.heading">Kontakt</h2>
             <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-violet-500 mx-auto rounded-full"></div>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <a href="mailto:job@aleksander.one" class="group bg-slate-800 rounded-xl p-6 border border-slate-700 text-center hover:border-blue-500/50 hover:-translate-y-1 transition-all duration-300">
+            <a href="mailto:aleksander.jedynak@gmail.com" class="group bg-slate-800 rounded-xl p-6 border border-slate-700 text-center hover:border-blue-500/50 hover:-translate-y-1 transition-all duration-300">
                 <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors duration-300">
                     <i class="fa-solid fa-envelope text-blue-500 text-xl"></i>
                 </div>
-                <h3 class="text-white font-semibold mb-1">Email</h3>
-                <p class="text-slate-400 text-sm">job@aleksander.one</p>
+                <h3 class="text-slate-50 font-semibold mb-1">Email</h3>
+                <p class="text-slate-400 text-sm">aleksander.jedynak@gmail.com</p>
             </a>
 
             <a href="tel:+48503765186" class="group bg-slate-800 rounded-xl p-6 border border-slate-700 text-center hover:border-blue-500/50 hover:-translate-y-1 transition-all duration-300">
                 <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors duration-300">
                     <i class="fa-solid fa-phone text-green-500 text-xl"></i>
                 </div>
-                <h3 class="text-white font-semibold mb-1">Telefon</h3>
+                <h3 class="text-slate-50 font-semibold mb-1" data-i18n="contact.phone">Telefon</h3>
                 <p class="text-slate-400 text-sm">+48 503 765 186</p>
             </a>
 
@@ -302,7 +297,7 @@
                 <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-blue-600/10 flex items-center justify-center group-hover:bg-blue-600/20 transition-colors duration-300">
                     <i class="fa-brands fa-linkedin text-blue-600 text-xl"></i>
                 </div>
-                <h3 class="text-white font-semibold mb-1">LinkedIn</h3>
+                <h3 class="text-slate-50 font-semibold mb-1">LinkedIn</h3>
                 <p class="text-slate-400 text-sm">aleksanderjedynak</p>
             </a>
         </div>
@@ -312,11 +307,19 @@
 <!-- Footer -->
 <footer class="py-8 border-t border-slate-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p class="text-slate-500 text-sm">&copy; 2025 Aleksander Jedynak. Wszelkie prawa zastrzezone.</p>
+        <p class="text-slate-500 text-sm">&copy; 2011 - <span id="current-year"></span> Aleksander Jedynak. <span data-i18n="footer.rights">Wszelkie prawa zastrzezone.</span></p>
     </div>
 </footer>
 
+<!-- Scroll to top -->
+<button id="scroll-top" data-i18n="a11y.scroll_top" data-i18n-attr="aria-label" aria-label="Przewin do gory">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<script src="js/i18n.js"></script>
+<script src="js/theme.js"></script>
 <script src="js/main.js"></script>
+<script>I18n.init();</script>
 
 </body>
 </html>
