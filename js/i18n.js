@@ -39,9 +39,10 @@ var I18n = (function () {
             el.innerHTML = t(el.dataset.i18nHtml);
         });
 
-        // Atrybuty (title, aria-label)
+        // Atrybuty (title, aria-label) - klucz z data-i18n-key, data-i18n lub data-i18n-html
         document.querySelectorAll('[data-i18n-attr]').forEach(function (el) {
-            var key = el.dataset.i18n || el.dataset.i18nHtml;
+            var key = el.dataset.i18nKey || el.dataset.i18n || el.dataset.i18nHtml;
+            if (!key) return;
             var attrs = el.dataset.i18nAttr.split(',');
             var value = t(key);
             attrs.forEach(function (attr) {
