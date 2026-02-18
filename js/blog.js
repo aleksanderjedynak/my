@@ -2,8 +2,9 @@
 // Routing: blog.html = lista postow, blog.html?post=<slug> = widok posta
 
 // --- KONFIGURACJA ---
-// Zmien na URL swojego Cloudflare Workera po deployu
-const WORKER_URL = 'https://blog-api.aleksanderjedynak.workers.dev';
+const WORKER_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8787'
+    : 'https://blog-api.blog-api-aleksander.workers.dev';
 // --- KONIEC KONFIGURACJI ---
 
 const blogContent = document.getElementById('blog-content');
