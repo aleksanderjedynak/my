@@ -8,9 +8,11 @@ const NOTION_VERSION = '2022-06-28';
 
 export default {
     async fetch(request, env, ctx) {
+        const origin = request.headers.get('Origin') || '';
+
         // CORS preflight
         if (request.method === 'OPTIONS') {
-            return corsResponse(env, 204);
+            return corsResponse(env, origin, 204);
         }
 
         const url = new URL(request.url);
@@ -31,10 +33,10 @@ export default {
                 const slugOrId = decodeURIComponent(path.replace('/posts/', ''));
                 data = await handleGetPost(slugOrId, env);
             } else {
-                return corsResponse(env, 404, { error: 'Not Found' });
+                return corsResponse(env, origin, 404, { error: 'Not Found' });
             }
 
-            const response = jsonResponse(env, 200, data);
+            const response = jsonResponse(env, origin, 200, data);
 
             // Zapisz do cache (non-blocking)
             ctx.waitUntil(cache.put(cacheKey, response.clone()));
@@ -42,7 +44,7 @@ export default {
             return response;
         } catch (err) {
             console.error('Worker error:', err);
-            return corsResponse(env, 500, { error: 'Internal Server Error' });
+            return corsResponse(env, origin, 500, { error: 'Internal Server Error' });
         }
     }
 };
@@ -70,6 +72,11 @@ async function handleListPosts(url, env) {
         env
     );
     const json = await res.json();
+
+    if (!res.ok || !json.results) {
+        console.error('Notion API error:', JSON.stringify(json));
+        throw new Error(json.message || 'Notion API error');
+    }
 
     const posts = json.results.map(page => mapPageToPost(page));
 
@@ -204,31 +211,49 @@ function isUUID(str) {
 
 // --- Response helpers ---
 
-function corsHeaders(env) {
+function isOriginAllowed(origin, env) {
+    if (!origin) return false;
+    const allowed = env.ALLOWED_ORIGIN || '*';
+    if (allowed === '*') return true;
+    if (origin === allowed) return true;
+    // Localhost zawsze dozwolony w dev
+    if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) return true;
+    return false;
+}
+
+function corsHeaders(env, origin) {
+    const allowed = env.ALLOWED_ORIGIN || '*';
+    // Jesli wildcard - zwroc *
+    // Jesli origin pasuje - zwroc ten origin (dynamiczny CORS)
+    let allowOrigin = allowed;
+    if (allowed !== '*' && isOriginAllowed(origin, env)) {
+        allowOrigin = origin;
+    }
     return {
-        'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN || '*',
+        'Access-Control-Allow-Origin': allowOrigin,
         'Access-Control-Allow-Methods': 'GET, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
+        'Vary': 'Origin',
     };
 }
 
-function jsonResponse(env, status, data) {
+function jsonResponse(env, origin, status, data) {
     return new Response(JSON.stringify(data), {
         status,
         headers: {
             'Content-Type': 'application/json',
             'Cache-Control': `s-maxage=${env.CACHE_TTL || 300}`,
-            ...corsHeaders(env),
+            ...corsHeaders(env, origin),
         },
     });
 }
 
-function corsResponse(env, status, data = null) {
+function corsResponse(env, origin, status, data = null) {
     return new Response(data ? JSON.stringify(data) : null, {
         status,
         headers: {
             'Content-Type': 'application/json',
-            ...corsHeaders(env),
+            ...corsHeaders(env, origin),
         },
     });
 }
